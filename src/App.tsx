@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import blue from '@material-ui/core/colors/blue';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { compoundTemplate } from './example/template'
+import txTemplate from './templates/uniswap'
 import { InputId } from './model/templates';
 import { buildTemplate } from './utils/encoding';
 
@@ -28,7 +28,7 @@ const updateUserInputs = (inputs: Record<string, string>, id: string, input: str
 const App = () => {
   const classes = useStyles();
   const [userInputs, setUserInputs] = useState<Record<InputId, string>>({})
-  const template = compoundTemplate
+  const template = txTemplate
 
   const build = useCallback(async () => {
     try {

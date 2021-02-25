@@ -5,14 +5,20 @@ import { AbiInput, InputId, InteractionTemplate, TemplateInput, TransactionAbi }
 const resolveInput = (id: InputId | undefined, templateInputs: Record<InputId, TemplateInput>, userInputs: Record<InputId, string>): any | undefined => {
     console.log("id", id)
     if (!id) return undefined
+    if (id === "time_now") return new Date().getMilliseconds() / 1000
     const templateInput = templateInputs[id]
     console.log("templateInput", templateInput)
     if (!templateInput) throw Error("Invalid id " + id)
+    console.log("user input", userInputs[id])
     switch (templateInput.details.type) {
         case "bn":
             return parseUnits(userInputs[id], templateInput.details.decimals)
         case "json":
-            return JSON.parse(userInputs[id])
+            try {
+                return JSON.parse(userInputs[id])
+            } catch (e) {
+                return userInputs[id]
+            }
         case "fixed":
             return templateInput.details.value
     }

@@ -1,6 +1,5 @@
 import { InteractionTemplate } from "../model/templates";
-
-export const compoundTemplate: InteractionTemplate = {
+const template: InteractionTemplate = {
     name: "Compound",
     inputs: {
         "tokenContract": {
@@ -38,3 +37,5 @@ export const compoundTemplate: InteractionTemplate = {
         }
     ]
 }
+
+export default template
