@@ -24,12 +24,14 @@ const template: InteractionTemplate = {
     },
     txs: [
         {
+            description: "Approve Compound to use DAI",
             to: "tokenContract", data: {
                 signature: "approve(address sender, uint256 amount)",
                 inputs: ["compoundContract", "tokenAmount"]
             }
         },
         {
+            description: "Convert DAI to cDAI",
             to: "compoundContract", data: {
                 signature: "mint(uint256 amount)",
                 inputs: ["tokenAmount"]

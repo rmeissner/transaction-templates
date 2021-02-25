@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import SafeProvider from '@gnosis.pm/safe-apps-react-sdk';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <SafeProvider>
+      <App />
+  </SafeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

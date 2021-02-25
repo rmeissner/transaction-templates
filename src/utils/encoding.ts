@@ -38,9 +38,17 @@ const resolveData = (data: InputId | TransactionAbi | undefined, templateInputs:
     return contractInterface.encodeFunctionData(data.signature, resolveAbiInput(data.inputs, templateInputs, userInputs))
 }
 
-export const buildTemplate = (template: InteractionTemplate, userInputs: Record<InputId, string>) => {
+export interface GeneratedTx {
+    description?: string,
+    to?: any,
+    value?: any,
+    data?: any,
+}
+
+export const buildTemplate = (template: InteractionTemplate, userInputs: Record<InputId, string>): GeneratedTx[] => {
     return template.txs.map((tx) => {
         return {
+            description: tx.description,
             to: resolveInput(tx.to, template.inputs, userInputs),
             value: resolveInput(tx.value, template.inputs, userInputs),
             data: resolveData(tx.data, template.inputs, userInputs),

@@ -32,6 +32,7 @@ export interface TemplateInput {
 }
 
 export interface TransactionTemplate {
+    description?: string,
     to: InputId,
     value?: InputId,
     data?: InputId | TransactionAbi

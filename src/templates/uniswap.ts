@@ -1,6 +1,6 @@
 import { InteractionTemplate } from "../model/templates";
 const template: InteractionTemplate = {
-    name: "Uniswap",
+    name: "Swap on Uniswap (18 decimal token)",
     inputs: {
         "zero": {
             details: {
@@ -33,7 +33,7 @@ const template: InteractionTemplate = {
             }
         },
         "tokenAmount": {
-            label: "Tokens amount to sell",
+            label: "Tokens amount to sell (18 decimals)",
             details: {
                 type: "bn",
                 decimals: 18
@@ -48,13 +48,17 @@ const template: InteractionTemplate = {
     },
     txs: [
         {
-            to: "sellToken", data: {
+            description: "Approve Uniswap to use token to sell",
+            to: "sellToken", 
+            data: {
                 signature: "approve(address sender, uint256 amount)",
                 inputs: ["uniswapContract", "tokenAmount"]
             }
         },
         {
-            to: "uniswapContract", data: {
+            description: "Sell token on Uniswap",
+            to: "uniswapContract", 
+            data: {
                 signature: "swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] path, address to, uint deadline)",
                 inputs: ["tokenAmount", "zero", ["sellToken", "buyToken"], "receipient", "deadline"]
             }
