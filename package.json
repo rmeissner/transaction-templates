@@ -1,6 +1,7 @@
 {
   "name": "transaction-templates",
   "version": "0.1.0",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "@gnosis.pm/safe-apps-react-sdk": "^2.0.0",

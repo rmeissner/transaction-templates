@@ -46,12 +46,14 @@ const App = () => {
         if (!e.target?.result) return;
         const template = JSON.parse(e.target.result.toString())
         setTemplate(template)
+        setUserInputs({})
+        setGeneratedTxs([])
       }
       reader.readAsBinaryString(file)
     } catch (e) {
       console.error(e)
     }
-  }, [setTemplate])
+  }, [setTemplate, setGeneratedTxs, setUserInputs])
 
   const build = useCallback(async () => {
     if (!template) return
@@ -107,7 +109,6 @@ const App = () => {
         {template && (<>
           <h3>Inputs</h3>
           {Object.entries(template.inputs).map(([id, input]) => {
-            console.log(input)
             switch (input.details.type) {
               case "bn":
               case "json":
@@ -115,14 +116,14 @@ const App = () => {
                   <TextField
                     placeholder={input.details.hint}
                     label={input.label}
-                    value={userInputs[id]}
+                    value={userInputs[id] || ""}
                     onChange={(e) => { setUserInputs(updateUserInputs(userInputs, id, e.target.value)) }}
                     className={classes.input} />
                 )
             }
           })}
           <Button color="primary" onClick={build}>Build</Button>
-          <h3>Transactions {connected && (<Button color="primary" onClick={() => executeAll(generatedTxs)}>Execute All</Button>)}</h3>
+          <h3>Transactions {connected && generatedTxs.length > 1 && (<Button color="primary" onClick={() => executeAll(generatedTxs)}>Execute All</Button>)}</h3>
           {generatedTxs.map((tx, index) => (
             <>
               {tx.description || `Transaction #${index + 1}`}
