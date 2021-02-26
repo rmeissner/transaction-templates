@@ -22,13 +22,13 @@
         "sellToken": {
             "label": "Token to sell",
             "details": {
-                "type": "json"
+                "type": "string"
             }
         },
         "buyToken": {
             "label": "Token to buy",
             "details": {
-                "type": "json"
+                "type": "string"
             }
         },
         "tokenAmount": {
@@ -41,7 +41,7 @@
         "receipient": {
             "label": "Receipient of tokens",
             "details": {
-                "type": "json"
+                "type": "string"
             }
         }
     },

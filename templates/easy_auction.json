@@ -34,25 +34,25 @@
         "auctioningToken": {
             "label": "Token to auction",
             "details": {
-                "type": "json"
+                "type": "string"
             }
         },
         "biddingToken": {
             "label": "Token to accept",
             "details": {
-                "type": "json"
+                "type": "string"
             }
         },
         "sellAmountInAtoms": {
             "label": "Token amount to auction in atoms",
             "details": {
-                "type": "json"
+                "type": "string"
             }
         },
         "minBuyAmountInAtoms": {
             "label": "Minimum amount of tokens to be bought in atoms",
             "details": {
-                "type": "json"
+                "type": "string"
             }
         },
         "isAtomicClosureAllowed": {

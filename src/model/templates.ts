@@ -24,6 +24,10 @@ export interface JsonInput extends UserInput {
     type: "json"
 }
 
+export interface StringInput extends UserInput {
+    type: "string"
+}
+
 export type TemplateInputType = FixedInput | BigNumberInput | JsonInput
 
 export interface TemplateInput {

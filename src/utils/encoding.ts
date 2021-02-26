@@ -10,6 +10,8 @@ const resolveInput = (id: InputId | undefined, templateInputs: Record<InputId, T
     switch (templateInput.details.type) {
         case "bn":
             return parseUnits(userInputs[id], templateInput.details.decimals)
+        case "string":
+            return userInputs[id]
         case "json":
             try {
                 return JSON.parse(userInputs[id])
