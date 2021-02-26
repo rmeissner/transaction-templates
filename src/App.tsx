@@ -6,8 +6,9 @@ import blue from '@material-ui/core/colors/blue'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { InteractionTemplate, InputId } from './model/templates'
-import { buildTemplate, GeneratedTx } from './utils/encoding'
+import { buildTemplate, GeneratedTx, setProvider } from './utils/encoding'
 import { ethers } from 'ethers'
+import { SafeAppsSdkProvider } from '@gnosis.pm/safe-apps-ethers-provider';
 import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
 import { checkedTx } from './utils/sapp'
 import axios from 'axios'
@@ -39,7 +40,7 @@ const App = () => {
   const classes = useStyles();
   const [generatedTxs, setGeneratedTxs] = useState<GeneratedTx[]>([])
   const [userInputs, setUserInputs] = useState<Record<InputId, string>>({})
-  const { sdk, connected } = useSafeAppsSDK();
+  const { safe, sdk, connected } = useSafeAppsSDK();
   const [template, setTemplate] = useState<InteractionTemplate | undefined>(undefined)
 
   const updateTemplate = useCallback(async (newTemplate: InteractionTemplate) => {
@@ -75,12 +76,16 @@ const App = () => {
   const build = useCallback(async () => {
     if (!template) return
     try {
-      const txs = buildTemplate(template, userInputs)
+      const provider = connected ?
+        new SafeAppsSdkProvider(safe, sdk) :
+        new ethers.providers.Web3Provider(window.ethereum)
+      setProvider(provider)
+      const txs = await buildTemplate(template, userInputs)
       setGeneratedTxs(txs)
     } catch (e) {
       console.error(e)
     }
-  }, [userInputs, template, setGeneratedTxs])
+  }, [connected, safe, sdk, userInputs, template, setGeneratedTxs])
 
   const execute = useCallback(async (tx: GeneratedTx) => {
     try {

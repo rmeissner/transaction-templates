@@ -13,11 +13,27 @@
                 "value": "0x6D7F0754FFeb405d23C51CE938289d4835bE3b14"
             }
         },
+        "tokenDecimals": {
+            "details": {
+                "type": "contractCall",
+                "target": "tokenContract",
+                "signature": "decimals() returns (uint256)",
+                "inputs": []
+            }
+        },
+        "tokenSymbol": {
+            "details": {
+                "type": "contractCall",
+                "target": "tokenContract",
+                "signature": "symbol() returns (string)",
+                "inputs": []
+            }
+        },
         "tokenAmount": {
             "label": "Tokens to put into compound",
             "details": {
                 "type": "bn",
-                "decimals": 18
+                "decimals": "tokenDecimals"
             }
         }
     },
