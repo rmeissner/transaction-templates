@@ -1,0 +1,78 @@
+{
+    "name": "Swap on Uniswap (18 decimal token)",
+    "inputs": {
+        "zero": {
+            "details": {
+                "type": "fixed",
+                "value": "0"
+            }
+        },
+        "deadline": {
+            "details": {
+                "type": "fixed",
+                "value": "0xFFFFFFFFFFFFFFFF"
+            }
+        },
+        "uniswapContract": {
+            "details": {
+                "type": "fixed",
+                "value": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
+            }
+        },
+        "sellToken": {
+            "label": "Token to sell",
+            "details": {
+                "type": "json"
+            }
+        },
+        "buyToken": {
+            "label": "Token to buy",
+            "details": {
+                "type": "json"
+            }
+        },
+        "tokenAmount": {
+            "label": "Tokens amount to sell (18 decimals)",
+            "details": {
+                "type": "bn",
+                "decimals": 18
+            }
+        },
+        "receipient": {
+            "label": "Receipient of tokens",
+            "details": {
+                "type": "json"
+            }
+        }
+    },
+    "txs": [
+        {
+            "description": "Approve Uniswap to use token to sell",
+            "to": "sellToken",
+            "data": {
+                "signature": "approve(address sender, uint256 amount)",
+                "inputs": [
+                    "uniswapContract",
+                    "tokenAmount"
+                ]
+            }
+        },
+        {
+            "description": "Sell token on Uniswap",
+            "to": "uniswapContract",
+            "data": {
+                "signature": "swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] path, address to, uint deadline)",
+                "inputs": [
+                    "tokenAmount",
+                    "zero",
+                    [
+                        "sellToken",
+                        "buyToken"
+                    ],
+                    "receipient",
+                    "deadline"
+                ]
+            }
+        }
+    ]
+}
