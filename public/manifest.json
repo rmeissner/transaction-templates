@@ -1,6 +1,8 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Tx Templates",
+  "name": "Transaction Templates",
+  "description": "Generate transactions from templates",
+  "iconPath": "logo512.png",
   "icons": [
     {
       "src": "favicon.ico",
