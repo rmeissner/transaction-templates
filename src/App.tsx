@@ -112,6 +112,7 @@ const App = () => {
             switch (input.details.type) {
               case "bn":
               case "json":
+              case "string":
                 return (
                   <TextField
                     placeholder={input.details.hint}

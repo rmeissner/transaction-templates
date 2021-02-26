@@ -28,7 +28,7 @@ export interface StringInput extends UserInput {
     type: "string"
 }
 
-export type TemplateInputType = FixedInput | BigNumberInput | JsonInput
+export type TemplateInputType = FixedInput | BigNumberInput | JsonInput | StringInput
 
 export interface TemplateInput {
     label?: string,
