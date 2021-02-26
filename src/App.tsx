@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Button, TextField } from '@material-ui/core'
+import { Box, Button, TextField, Input } from '@material-ui/core'
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
 import blue from '@material-ui/core/colors/blue'
@@ -10,6 +10,7 @@ import { buildTemplate, GeneratedTx } from './utils/encoding'
 import { ethers } from 'ethers'
 import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
 import { checkedTx } from './utils/sapp'
+import axios from 'axios'
 
 declare global {
   interface Window { ethereum: any; }
@@ -21,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     width: "100%"
+  },
+  templateInput: {
+    verticalAlign: "center"
   }
 }));
 
@@ -38,22 +42,35 @@ const App = () => {
   const { sdk, connected } = useSafeAppsSDK();
   const [template, setTemplate] = useState<InteractionTemplate | undefined>(undefined)
 
-  const handleFileUpload = React.useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateTemplate = useCallback(async (newTemplate: InteractionTemplate) => {
+    setTemplate(newTemplate)
+    setUserInputs({})
+    setGeneratedTxs([])
+  }, [setTemplate, setGeneratedTxs, setUserInputs])
+
+  const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const file = e.target.files!![0]
       const reader = new FileReader()
       reader.onload = (e) => {
         if (!e.target?.result) return;
-        const template = JSON.parse(e.target.result.toString())
-        setTemplate(template)
-        setUserInputs({})
-        setGeneratedTxs([])
+        updateTemplate(JSON.parse(e.target.result.toString()))
       }
       reader.readAsBinaryString(file)
     } catch (e) {
       console.error(e)
     }
-  }, [setTemplate, setGeneratedTxs, setUserInputs])
+  }, [updateTemplate])
+
+  const handleTemplateUrl = useCallback(async (url: string) => {
+    if (!url || url.length < 2) return
+    try {
+      const resp = await axios.get<InteractionTemplate>(url);
+      updateTemplate(resp.data)
+    } catch (e) {
+      console.error(e)
+    }
+  }, [updateTemplate])
 
   const build = useCallback(async () => {
     if (!template) return
@@ -105,7 +122,11 @@ const App = () => {
         <h1>
           Transaction template: {template?.name || "Upload Template"}
         </h1>
-        <input type="file" accept=".json" onChange={handleFileUpload} /><br />
+        <Box className={classes.templateInput}>
+        <Input type="file" inputProps={{ accept: '.json' }} onChange={handleFileUpload} /> &nbsp; or &nbsp; <TextField
+            placeholder="Enter template json url"
+            onChange={(e) => { handleTemplateUrl(e.target.value) }} />
+        </Box>
         {template && (<>
           <h3>Inputs</h3>
           {Object.entries(template.inputs).map(([id, input]) => {
