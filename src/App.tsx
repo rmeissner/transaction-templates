@@ -10,8 +10,6 @@ import { buildTemplate, GeneratedTx } from './utils/encoding'
 import { ethers } from 'ethers'
 import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
 import { checkedTx } from './utils/sapp'
-import template1 from './templates/compound'
-import template2 from './templates/uniswap'
 
 declare global {
   interface Window { ethereum: any; }
@@ -39,9 +37,7 @@ const App = () => {
   const [userInputs, setUserInputs] = useState<Record<InputId, string>>({})
   const { sdk, connected } = useSafeAppsSDK();
   const [template, setTemplate] = useState<InteractionTemplate | undefined>(undefined)
-  console.log(JSON.stringify(template1))
-  console.log(JSON.stringify(template2))
-  
+
   const handleFileUpload = React.useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const file = e.target.files!![0]
@@ -61,7 +57,6 @@ const App = () => {
     if (!template) return
     try {
       const txs = buildTemplate(template, userInputs)
-      console.log({ txs })
       setGeneratedTxs(txs)
     } catch (e) {
       console.error(e)
