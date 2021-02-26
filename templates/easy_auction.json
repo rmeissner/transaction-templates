@@ -1,0 +1,103 @@
+{
+    "name": "Easy auction (Rinkeby)",
+    "inputs": {
+        "cancelationPeriod": {
+            "details": {
+                "type": "fixed",
+                "value": "0"
+            }
+        },
+        "minParticipantsBuyAmount": {
+            "details": {
+                "type": "fixed",
+                "value": "1"
+            }
+        },
+        "minFundingThresholdInAtoms": {
+            "details": {
+                "type": "fixed",
+                "value": "0"
+            }
+        },
+        "duration": {
+            "details": {
+                "type": "fixed",
+                "value": "360000"
+            }
+        },
+        "easyAuctionContract": {
+            "details": {
+                "type": "fixed",
+                "value": "0x99e63218201e44549AB8a6Fa220e1018FDB48f79"
+            }
+        },
+        "auctioningToken": {
+            "label": "Token to auction",
+            "details": {
+                "type": "json"
+            }
+        },
+        "biddingToken": {
+            "label": "Token to accept",
+            "details": {
+                "type": "json"
+            }
+        },
+        "sellAmountInAtoms": {
+            "label": "Token amount to auction in atoms",
+            "details": {
+                "type": "json"
+            }
+        },
+        "minBuyAmountInAtoms": {
+            "label": "Minimum amount of tokens to be bought in atoms",
+            "details": {
+                "type": "json"
+            }
+        },
+        "isAtomicClosureAllowed": {
+            "details": {
+                "type": "fixed",
+                "value": "false"
+            }
+        },
+        "allowListManager": {
+            "details": {
+                "type": "fixed",
+                "value": "0x0000000000000000000000000000000000000000"
+            }
+        }
+    },
+    "txs": [
+        {
+            "description": "Approve Easy Auction for token to sell",
+            "to": "auctioningToken",
+            "data": {
+                "signature": "approve(address sender, uint256 amount)",
+                "inputs": [
+                    "easyAuctionContract",
+                    "sellAmountInAtoms"
+                ]
+            }
+        },
+        {
+            "description": "Creation auction",
+            "to": "easyAuctionContract",
+            "data": {
+                "signature": "initiateAuction(address _auctioningToken, address _biddingToken, uint256 orderCancelationPeriodDuration, uint256 duration, uint96 _auctionedSellAmount, uint96 _minBuyAmount, uint256 minimumBiddingAmountPerOrder, uint256 minFundingThreshold, bool isAtomicClosureAllowed, address allowListManager)",
+                "inputs": [
+                    "auctioningToken",
+                    "biddingToken",
+                    "cancelationPeriod",
+                    "duration",
+                    "sellAmountInAtoms",
+                    "minBuyAmountInAtoms",
+                    "minParticipantsBuyAmount",
+                    "minFundingThresholdInAtoms",
+                    "isAtomicClosureAllowed",
+                    "allowListManager"
+                ]
+            }
+        }
+    ]
+}
