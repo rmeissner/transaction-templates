@@ -1,5 +1,5 @@
 {
-    "name": "Compound",
+    "name": "Deposit to Yearn Vaults",
     "inputs": {
         "vaultContract": {
             "label": "Vault to deposit tokens to",
