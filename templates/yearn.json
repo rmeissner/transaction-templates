@@ -1,0 +1,57 @@
+{
+    "name": "Compound",
+    "inputs": {
+        "vaultContract": {
+            "label": "Vault to deposit tokens to",
+            "details": {
+                "type": "string"
+            }
+        },
+        "tokenContract": {
+            "details": {
+                "type": "contractCall",
+                "target": "vaultContract",
+                "signature": "token() returns (address)",
+                "inputs": []
+            }
+        },
+        "tokenDecimals": {
+            "details": {
+                "type": "contractCall",
+                "target": "tokenContract",
+                "signature": "decimals() returns (uint256)",
+                "inputs": []
+            }
+        },
+        "tokenAmount": {
+            "label": "Amount to deposit",
+            "details": {
+                "type": "bn",
+                "decimals": "tokenDecimals"
+            }
+        }
+    },
+    "txs": [
+        {
+            "description": "Approve yearn to use token",
+            "to": "tokenContract",
+            "data": {
+                "signature": "approve(address sender, uint256 amount)",
+                "inputs": [
+                    "vaultContract",
+                    "tokenAmount"
+                ]
+            }
+        },
+        {
+            "description": "Deposit into yearn vault",
+            "to": "vaultContract",
+            "data": {
+                "signature": "deposit(uint256 amount)",
+                "inputs": [
+                    "tokenAmount"
+                ]
+            }
+        }
+    ]
+}
