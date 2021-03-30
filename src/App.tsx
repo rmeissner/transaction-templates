@@ -12,6 +12,7 @@ import { SafeAppsSdkProvider } from '@gnosis.pm/safe-apps-ethers-provider';
 import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
 import { checkedTx } from './utils/sapp'
 import axios from 'axios'
+import { generateMultiSendTx } from './utils/multisend'
 
 declare global {
   interface Window { ethereum: any; }
@@ -105,6 +106,15 @@ const App = () => {
     }
   }, [connected, sdk])
 
+  const buildMultiSend = useCallback(async (txs: GeneratedTx[]) => {
+    try {
+      console.log(generateMultiSendTx(txs.map(checkedTx)))
+      window.alert("Generated TX has been logged to the console")
+    } catch (e) {
+      console.error(e)
+    }
+  }, [sdk])
+
   const executeAll = useCallback(async (txs: GeneratedTx[]) => {
     try {
       sdk.txs.send({ txs: txs.map(checkedTx) })
@@ -150,7 +160,7 @@ const App = () => {
             }
           })}
           <Button color="primary" onClick={build}>Build</Button>
-          <h3>Transactions {connected && generatedTxs.length > 1 && (<Button color="primary" onClick={() => executeAll(generatedTxs)}>Execute All</Button>)}</h3>
+          <h3>Transactions {generatedTxs.length > 1 && (<Button color="primary" onClick={() => connected ? executeAll(generatedTxs) : buildMultiSend(generatedTxs)}>{connected ? "Execute All": "Build Tx"}</Button>)}</h3>
           {generatedTxs.map((tx, index) => (
             <>
               {tx.description || `Transaction #${index + 1}`}

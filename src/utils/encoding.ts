@@ -1,6 +1,5 @@
 import { parseUnits } from '@ethersproject/units'
 import { Interface } from '@ethersproject/abi'
-import { Contract } from '@ethersproject/contracts'
 import { Provider } from '@ethersproject/providers'
 import { AbiInput, InputId, InteractionTemplate, TemplateInput, TemplateLabel, TransactionAbi } from '../model/templates';
 
